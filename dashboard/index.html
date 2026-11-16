@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token Launch Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot"></span><div><h1>Token Launch Radar</h1><p class="sub">Which pre-token protocol is worth farming next — and what to do about it.</p></div></div>
+  <div class="meta" id="meta"></div>
+</header>
+<main>
+  <section class="hero" id="hero" aria-label="Top pick"></section>
+  <section class="panel" aria-label="Filters">
+    <div class="controls">
+      <label class="ctl">Search <input id="q" type="search" placeholder="Protocol name or slug…" autocomplete="off"></label>
+      <label class="ctl">Chain <select id="chain"><option value="">All chains</option></select></label>
+      <label class="ctl">Category <select id="cat"><option value="">All categories</option></select></label>
+      <label class="ctl">Sort by <select id="sort">
+        <option value="value">Implied value</option><option value="tvl">TVL</option>
+        <option value="growth">7-day growth</option><option value="age">Age (days)</option>
+        <option value="name">Name A–Z</option></select></label>
+      <label class="chk"><input id="watch" type="checkbox"> Watchlist only</label>
+      <label class="chk"><input id="early" type="checkbox"> Below the $50M floor only</label>
+    </div>
+    <p class="count" id="count"></p>
+  </section>
+  <section class="panel" aria-label="Ranked board">
+    <h2>Ranked board <span class="hint">click a row for the farm plan</span></h2>
+    <div class="tablewrap"><table id="board">
+      <thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>Chains</th><th>TVL</th><th>7d</th><th>Age</th><th>Implied value</th><th>Confidence</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+  <section class="panel detail" id="detail" aria-label="Protocol detail"></section>
+  <section class="panel" aria-label="Live tokens">
+    <h2>Already trading — kept apart</h2>
+    <p class="note">These protocols already record a token, so they are not farmable as pre-token launches. They are the market's own values, shown here as the comparables the peer multiples are calibrated from.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Protocol</th><th>Category</th><th>TVL</th><th>Market cap</th><th>7d</th></tr></thead>
+      <tbody id="live"></tbody>
+    </table></div>
+  </section>
+  <section class="panel" aria-label="How the ranking works">
+    <h2>How the ranking works</h2>
+    <div id="method"></div>
+    <h3>Category calibration — median market-cap / TVL of token-bearing peers</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Category</th><th>Peers</th><th>Multiple</th><th>Share with a token</th><th>Peer examples</th></tr></thead>
+      <tbody id="calib"></tbody>
+    </table></div>
+    <p class="fine">A protocol is always described as one that <em>records no token</em> in the snapshot — the snapshot cannot prove it has none. Wrapped, staked and bridged products of a token that already trades are excluded from the board: they can never launch a token of their own. Implied values are this radar's own claim, never a promise of a launch.</p>
+  </section>
+</main>
+<footer><p id="foot"></p></footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

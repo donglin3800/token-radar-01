@@ -1,0 +1,58 @@
+:root{--bg:#0b1220;--panel:#111c2e;--line:#22344d;--ink:#e8eef7;--mut:#9fb0c7;--acc:#2fd6a3;--acc2:#f5b942;--red:#ff6b6b;--grn:#2fd6a3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.top{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px 22px 12px;border-bottom:1px solid var(--line)}
+.brand{display:flex;gap:12px;align-items:flex-start}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 5px rgba(47,214,163,.18);margin-top:8px;flex:none}
+h1{margin:0;font-size:24px;letter-spacing:.2px}
+.sub{margin:2px 0 0;color:var(--mut)}
+.meta{text-align:right;color:var(--mut);font-size:13px;line-height:1.6}
+.meta b{color:var(--ink)}
+main{max-width:1180px;margin:0 auto;padding:16px 18px 8px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:16px}
+h2{margin:0 0 10px;font-size:18px}
+h3{margin:18px 0 8px;font-size:15px}
+.hint{font-size:12px;color:var(--mut);font-weight:400;margin-left:8px}
+.note{color:var(--mut);margin:0 0 12px}
+.fine{color:var(--mut);font-size:13px}
+.hero{display:grid;grid-template-columns:1fr auto;gap:16px;background:linear-gradient(135deg,#0f2a22,#111c2e 60%);border:1px solid #1e4a3a;border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.hero .k{color:var(--acc);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.hero h2{font-size:26px;margin:4px 0 6px}
+.hero p{margin:4px 0;color:#cfe6da}
+.hero .val{font-size:30px;font-weight:800;color:var(--acc);white-space:nowrap}
+.hero .val small{display:block;font-size:12px;color:var(--mut);font-weight:400}
+.hero .cta{margin-top:10px}
+button{cursor:pointer;background:var(--acc);color:#06281d;border:0;border-radius:8px;padding:9px 16px;font-weight:700;font-size:14px}
+button.ghost{background:transparent;color:var(--acc);border:1px solid var(--acc)}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.ctl{font-size:12px;color:var(--mut);display:flex;flex-direction:column;gap:4px}
+.ctl input,.ctl select{background:#0b1526;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;min-width:150px}
+.ctl input{width:230px}
+.chk{display:flex;gap:6px;align-items:center;padding-bottom:9px;font-size:13px}
+.count{margin:10px 0 0;color:var(--mut);font-size:13px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#16263d}
+td.num,th.num{text-align:right}
+.up{color:var(--grn)}.down{color:var(--red)}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:700}
+.b-high{background:rgba(47,214,163,.16);color:var(--grn)}
+.b-medium{background:rgba(245,185,66,.16);color:var(--acc2)}
+.b-low{background:rgba(255,107,107,.14);color:var(--red)}
+.tag{display:inline-block;background:#1a2c46;border-radius:6px;padding:1px 7px;font-size:12px;margin:1px 2px 1px 0}
+.detail h2{font-size:22px}
+.steps{margin:10px 0;padding-left:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;padding:10px 12px 10px 44px;position:relative;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#0d1828}
+.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#06281d;font-weight:800;font-size:13px;text-align:center;line-height:22px}
+.steps li b{color:var(--acc)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kv div{background:#0d1828;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kv span{display:block;font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.kv b{font-size:17px}
+.risks li{margin-bottom:4px}
+.empty{color:var(--mut);padding:18px;text-align:center}
+footer{max-width:1180px;margin:0 auto;padding:0 18px 22px;color:var(--mut);font-size:12px}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.meta{text-align:left}}

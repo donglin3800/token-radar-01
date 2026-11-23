@@ -3,34 +3,49 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Token Launch Radar — pre-token protocols ranked by implied value</title>
+<title>Token Launch Radar — pre-token protocols ranked by fitted implied value</title>
 <link rel="stylesheet" href="app.css">
 </head>
 <body>
 <header class="top">
-  <div class="brand"><span class="dot"></span><div><h1>Token Launch Radar</h1><p class="sub">Which pre-token protocol is worth farming next — and what to do about it.</p></div></div>
+  <div class="brand"><span class="dot"></span><div><h1>Token Launch Radar</h1><p class="sub">Which pre-token protocol is worth farming next — and what it would be worth if it launches. Every number below is computed from one sealed DefiLlama snapshot, and the page recomputes every row in your browser and says whether it agrees.</p></div></div>
   <div class="meta" id="meta"></div>
 </header>
 <main>
+  <section class="kpis" id="kpis" aria-label="Out-of-sample validation"></section>
+  <section class="panel" aria-label="Protocol accounting">
+    <h2>Protocol accounting — all 758 in exactly one group</h2>
+    <div class="ledger" id="ledger"></div>
+    <div class="checks" id="checks"></div>
+  </section>
+  <section class="panel" aria-label="Out-of-sample evidence">
+    <h2>Out-of-sample evidence — every term tested twice, kept only when it won both</h2>
+    <div class="evgrid">
+      <div><h3>Value model — typical miss (median factor)</h3><div class="tablewrap"><table><thead><tr><th>Term, added in order</th><th>Leave-one-out</th><th>Walk-forward</th><th>Kept?</th></tr></thead><tbody id="valStages"></tbody></table></div></div>
+      <div><h3>Token-odds model — Brier score (lower is better)</h3><div class="tablewrap"><table><thead><tr><th>Term, added in order</th><th>10-fold</th><th>Walk-forward</th><th>Kept?</th></tr></thead><tbody id="oddStages"></tbody></table></div></div>
+      <div><h3>Range honesty — share of real traded caps inside the printed band</h3><div class="tablewrap"><table><thead><tr><th>Band</th><th>Held out (leave-one-out)</th><th>Walk-forward</th><th>Stated</th></tr></thead><tbody id="rangeCal"></tbody></table></div></div>
+    </div>
+    <div id="pricing"></div>
+  </section>
   <section class="hero" id="hero" aria-label="Top pick"></section>
   <section class="panel" aria-label="Filters">
+    <div class="tabs" id="tabs" role="tablist"></div>
     <div class="controls">
+      <label class="ctl">Plan <select id="plan"><option value="1000">$1,000</option><option value="5000">$5,000</option><option value="10000" selected>$10,000</option><option value="25000">$25,000</option><option value="50000">$50,000</option></select></label>
+      <label class="ctl">Farmer share <select id="share"><option value="0.03">3%</option><option value="0.05">5%</option><option value="0.07" selected>7%</option><option value="0.10">10%</option></select></label>
       <label class="ctl">Search <input id="q" type="search" placeholder="Protocol name or slug…" autocomplete="off"></label>
       <label class="ctl">Chain <select id="chain"><option value="">All chains</option></select></label>
       <label class="ctl">Category <select id="cat"><option value="">All categories</option></select></label>
       <label class="ctl">Sort by <select id="sort">
-        <option value="value">Implied value</option><option value="tvl">TVL</option>
-        <option value="growth">7-day growth</option><option value="age">Age (days)</option>
-        <option value="name">Name A–Z</option></select></label>
-      <label class="chk"><input id="watch" type="checkbox"> Watchlist only</label>
-      <label class="chk"><input id="early" type="checkbox"> Below the $50M floor only</label>
+        <option value="value">Implied value</option><option value="odds">Token odds</option><option value="nph">Net / hour</option><option value="tvl">TVL</option>
+        <option value="growth">7-day growth</option><option value="age">Age (days)</option><option value="name">Name A–Z</option></select></label>
     </div>
     <p class="count" id="count"></p>
   </section>
   <section class="panel" aria-label="Ranked board">
     <h2>Ranked board <span class="hint">click a row for the farm plan</span></h2>
     <div class="tablewrap"><table id="board">
-      <thead><tr><th>#</th><th>Protocol</th><th>Category</th><th>Chains</th><th>TVL</th><th>7d</th><th>Age</th><th>Implied value</th><th>Confidence</th></tr></thead>
+      <thead><tr><th>#</th><th>Protocol</th><th>TVL</th><th>7d</th><th>No-token age</th><th>Token odds</th><th>If it launches</th><th>Implied value</th><th>Verdict</th><th>Net / hour</th></tr></thead>
       <tbody id="rows"></tbody>
     </table></div>
   </section>
@@ -46,12 +61,12 @@
   <section class="panel" aria-label="How the ranking works">
     <h2>How the ranking works</h2>
     <div id="method"></div>
-    <h3>Category calibration — median market-cap / TVL of token-bearing peers</h3>
+    <h3>Category calibration — median market-cap / TVL of token-bearing peers (descriptive only; the fitted model does not use category)</h3>
     <div class="tablewrap"><table>
       <thead><tr><th>Category</th><th>Peers</th><th>Multiple</th><th>Share with a token</th><th>Peer examples</th></tr></thead>
       <tbody id="calib"></tbody>
     </table></div>
-    <p class="fine">A protocol is always described as one that <em>records no token</em> in the snapshot — the snapshot cannot prove it has none. Wrapped, staked and bridged products of a token that already trades are excluded from the board: they can never launch a token of their own. Implied values are this radar's own claim, never a promise of a launch.</p>
+    <p class="fine">A protocol is always described as one that <em>records no token</em> in the snapshot — the snapshot cannot prove it has none. Wrapped, staked and bridged products of a token that already trades are excluded from the board: they can never launch a token of their own. Implied values are this radar's own claim, never a promise of a launch. The odds are a chance of a token within 24 months given no token yet — old protocols that never launched score low on purpose, because the survivors are the ones least likely to launch next.</p>
   </section>
 </main>
 <footer><p id="foot"></p></footer>

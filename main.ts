@@ -60,15 +60,13 @@ try {
 } catch {
   die(`cannot read ${snapshotPath}`);
 }
-const snapshot = parseSnapshot(snapshotText!);
-const built = buildRadar(snapshot);
-const board = built.board;
-const radar = built.radar;
-const problem = boardIssue(board, snapshot);
+const snapshot = parseSnapshot(JSON.parse(snapshotText!));
+const { rows: board, data: radar } = buildRadar(snapshot);
+const problem = boardIssue(snapshot, board, radar.checksum, radar.board_total_usd);
 if (problem !== null) die(`the board fails the gate: ${problem}`);
 
 mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, 'board.json'), `${JSON.stringify({ rows: board })}\n`);
+writeFileSync(join(outDir, 'board.json'), `${JSON.stringify({ rows: board, checksum: radar.checksum, board_total_usd: radar.board_total_usd }, null, 2)}\n`);
 writeFileSync(join(outDir, 'data.js'), radarScript(radar));
 
 /** Copy every regular file of one directory into another, skipping dot-names, and report what moved. */
@@ -98,7 +96,11 @@ writeFileSync(
   buildDossier(outDir, { text_max_bytes: TEXT_CAP_BYTES, screenshots: SHOT_CAP, dashboard: DASH_CAP }),
 );
 
+const v = radar.value_validation;
+const o = radar.odds_validation;
 process.stdout.write(
-  `token-radar: ${snapshot.protocols.length} protocols in the snapshot, ${snapshot.watchlist.length} on the watchlist, ${board.length} rows ranked (${radar.early_size} of them beyond the watchlist)\n` +
-    `token-radar: wrote ${join(outDir, 'board.json')}, ${join(outDir, 'data.js')}, ${pageFiles.length} dashboard files, ${shotFiles.length} screenshots and ${join(outDir, 'dossier.json')}\n`,
+  `token-radar: ${snapshot.protocols.length} protocols in the snapshot, ${snapshot.watchlist.length} on the watchlist, ${board.length} rows ranked (${radar.early_size} of them below the $50M floor)\n` +
+    `token-radar: wrote ${join(outDir, 'board.json')}, ${join(outDir, 'data.js')}, ${pageFiles.length} dashboard files, ${shotFiles.length} screenshots and ${join(outDir, 'dossier.json')}\n` +
+    `token-radar: checksum ${radar.checksum}, board total $${radar.board_total_usd.toLocaleString('en-US')}\n` +
+    `token-radar: value miss LOO x${v.loo_miss} / walk-forward x${v.wf_miss} (flat x${v.flat_loo} / x${v.flat_wf}); odds Brier CV ${o.brier_cv} / walk-forward ${o.brier_wf} (base ${o.base_brier_cv} / ${o.base_brier_wf}); range P25-P75 holds ${Math.round(v.range_p25_75_loo * 100)}% held-out, P10-P90 holds ${Math.round(v.range_p10_90_loo * 100)}%\n`,
 );
